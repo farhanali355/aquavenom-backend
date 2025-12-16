@@ -1,0 +1,16 @@
+# Environment variables
+.env
+.env.local
+
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+*.pid
+*.seed
+*.pid.lock
