@@ -2,8 +2,13 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
-  if (req.method !== "POST")
-    return res.status(405).json({ message: "Method not allowed" });
+  if (req.method !== "POST") {
+    return res.status(405).json({ 
+      message: "Method not allowed", 
+      allowed: "POST",
+      received: req.method 
+    });
+  }
 
   const { amount, customerName, customerEmail, items } = req.body;
 
