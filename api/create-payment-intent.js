@@ -15,8 +15,8 @@ export default async function handler(req, res) {
       metadata: {
         customer_email: customerEmail,
         customer_name: customerName,
-        items_count: items ? items.length : 0,
-        order_id: `AQUA-${Date.now()}`,
+        items_count: items?.length || 0,
+        order_id: `AQUA-${Date.now()}`
       },
     });
 
