@@ -78,6 +78,13 @@ app.post("/api/create-payment-intent", async (req, res) => {
 
 /* ---------- SERVER ---------- */
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
+// Local development ke liye
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+// Vercel ke liye export (IMPORTANT!)
+module.exports = app;
