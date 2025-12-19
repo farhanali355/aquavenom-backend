@@ -2,7 +2,10 @@
   "name": "aquavenom-backend",
   "version": "1.0.0",
   "dependencies": {
-    "stripe": "^14.0.0"
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "stripe": "^14.25.0"
   },
   "scripts": {
     "start": "vercel dev"

@@ -1,11 +1,10 @@
+
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const config = {
-  api: {
-    bodyParser: false, // raw body needed for webhooks
-  },
+  api: { bodyParser: false }, // raw body needed
 };
 
 const buffer = async (req) =>

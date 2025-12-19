@@ -1,9 +1,9 @@
 import Stripe from "stripe";
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ message: "Method not allowed" });
+  if (req.method !== "POST")
+    return res.status(405).json({ message: "Method not allowed" });
 
   const { amount, customerName, customerEmail, items } = req.body;
 
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         customer_email: customerEmail,
         customer_name: customerName,
         items_count: items?.length || 0,
-        order_id: `AQUA-${Date.now()}`
+        order_id: `AQUA-${Date.now()}`,
       },
     });
 
