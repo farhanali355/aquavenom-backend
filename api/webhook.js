@@ -1,11 +1,10 @@
-
 import Stripe from "stripe";
+import connectDB from "../../utils/db";
+import Payment from "../../models/Payment";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-export const config = {
-  api: { bodyParser: false }, // raw body needed
-};
+export const config = { api: { bodyParser: false } };
 
 const buffer = async (req) =>
   new Promise((resolve, reject) => {
@@ -16,6 +15,8 @@ const buffer = async (req) =>
   });
 
 export default async function handler(req, res) {
+  await connectDB(); // connect to DB
+
   if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
 
   const sig = req.headers["stripe-signature"];
@@ -30,7 +31,19 @@ export default async function handler(req, res) {
 
   if (event.type === "payment_intent.succeeded") {
     const paymentIntent = event.data.object;
-    console.log("💰 Payment received:", paymentIntent.id);
+  
+    await Payment.create({
+      stripeId: paymentIntent.id,
+      amount: paymentIntent.amount,
+      currency: paymentIntent.currency,
+      status: paymentIntent.status,
+      ownerId: paymentIntent.metadata?.order_id || null,
+      customerName: paymentIntent.metadata?.customer_name,
+      customerEmail: paymentIntent.metadata?.customer_email,
+      itemsCount: paymentIntent.metadata?.items_count,
+    });
+
+    console.log("💰 Payment saved in DB:", paymentIntent.id);
   }
 
   res.json({ received: true });
